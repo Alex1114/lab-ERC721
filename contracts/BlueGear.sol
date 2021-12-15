@@ -16,7 +16,7 @@ contract BlueGear is ERC721, Ownable {
 
 	// Events
 	// ------------------------------------------------------------------------
-	event mintEvent(address owner, uint256 numPurchase, uint256 totalSupply);
+	event mintEvent(address owner, uint256 quantity, uint256 totalSupply);
 	
 
 	constructor() ERC721("BlueGear", "BG") {
@@ -25,34 +25,32 @@ contract BlueGear is ERC721, Ownable {
 
 	// Giveaway functions
 	// ------------------------------------------------------------------------
-	function giveawayMint(address _to, uint256 numPurchase) public onlyOwner{
-		require(totalSupply() < MAX_Token, "Sold out!!");
-		require(numPurchase > 0 && numPurchase <= 50, "You can mint minimum 1, maximum 50.");
-		require(totalSupply().add(numPurchase) <= MAX_Token, "Exceeds MAX_Token.");
+	function giveawayMint(address _to, uint256 quantity) public onlyOwner{
+		require(quantity > 0 && quantity <= 50, "You can mint minimum 1, maximum 50.");
+		require(totalSupply().add(quantity) <= MAX_Token, "Exceeds MAX_Token.");
 
-		for (uint i = 0; i < numPurchase; i++) {
+		for (uint i = 0; i < quantity; i++) {
 			uint mintIndex = totalSupply().add(1);
-			_safeMint(msg.sender, mintIndex);
+			_safeMint(_to, mintIndex);
 		}
 
-		emit mintEvent(_to, numPurchase, totalSupply());
+		emit mintEvent(_to, quantity, totalSupply());
 	}
 
 	// Mint functions
 	// ------------------------------------------------------------------------
-	function mintToken(uint256 numPurchase) public payable {
+	function mintToken(uint256 quantity) public payable {
 		require(hasSaleStarted == true, "Sale hasn't started.");
-		require(totalSupply() < MAX_Token, "Sold out!");
-		require(numPurchase > 0 && numPurchase <= 50, "You can mint minimum 1, maximum 50.");
-		require(totalSupply().add(numPurchase) <= MAX_Token, "Exceeds MAX_Token.");
-		require(msg.value >= PRICE.mul(numPurchase), "Ether value sent is below the price.");
+		require(quantity > 0 && quantity <= 50, "You can mint minimum 1, maximum 50.");
+		require(totalSupply().add(quantity) <= MAX_Token, "Exceeds MAX_Token.");
+		require(msg.value == PRICE.mul(quantity), "Ether value sent is below the price.");
 
-		for (uint i = 0; i < numPurchase; i++) {
+		for (uint i = 0; i < quantity; i++) {
 			uint mintIndex = totalSupply().add(1);
 			_safeMint(msg.sender, mintIndex);
 		}
 
-		emit mintEvent(msg.sender, numPurchase, totalSupply());
+		emit mintEvent(msg.sender, quantity, totalSupply());
 	}
 
 	function tokensOfOwner(address _owner) external view returns(uint256[] memory ) {

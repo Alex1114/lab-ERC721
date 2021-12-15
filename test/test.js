@@ -48,6 +48,13 @@ describe("BlueGear", function () {
 
 		});
 
+		it("setBaseURI Function", async function () {
+
+			await contract.connect(owner).setBaseURI("URI");
+
+		});
+
+
 		it("giveawayMint Function", async function () {
 
 			await contract.connect(owner).giveawayMint(addr2.address, 2);
@@ -62,6 +69,11 @@ describe("BlueGear", function () {
 
 		});
 
+		it("mintToken Function", async function () {
+
+			await contract.connect(addr1).mintToken(1, {value: "50000000000000000"});
+
+		});
 	
 		it("withdrawAll Function", async function () {
 
