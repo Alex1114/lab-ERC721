@@ -10,7 +10,7 @@ const NFT = artifacts.require("BlueGear");
 async function main() {
 
 
-  let nftAddress = "0xFbd87C5A144dd178771e8b37403d8F443908e63D";
+  let nftAddress = "0xC98bd3b4E0FaaF6270eC0cE1f97440B3DE5b3D82";
   let nft = await NFT.at(nftAddress);
 
   await nft.withdrawAll();

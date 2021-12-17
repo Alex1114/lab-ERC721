@@ -13,10 +13,7 @@ async function main() {
   let nftAddress = "0xC98bd3b4E0FaaF6270eC0cE1f97440B3DE5b3D82";
   let nft = await NFT.at(nftAddress);
 
-
-  let numPurchase = 50;
-
-  await nft.mintToken(numPurchase, {value: 2500000000000000000});
+  await nft.setBaseURI("TokenURI");
 }
 
 // We recommend this pattern to be able to use async/await everywhere
